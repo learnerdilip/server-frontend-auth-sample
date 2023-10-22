@@ -1,0 +1,27 @@
+version: '3'
+
+name: cobbleweb
+
+volumes:
+  sample-database-volume: {}
+
+services:
+  api:
+    image: cobbleweb-api
+    container_name: cobbleweb-api
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+    command: npm run start:dev
+
+  database:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
