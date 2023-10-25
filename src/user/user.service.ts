@@ -31,7 +31,7 @@ export class UserService {
 
       const getPhoto = pics.map(async (file: any) => {
         const photo = new Photo();
-        photo.url = ' await this.getS3UrlForUpload(file);';
+        photo.url = await this.getS3UrlForUpload(file);
         photo.name = file.originalname;
         photo.user = user;
         return photo;
