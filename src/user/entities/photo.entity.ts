@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { User } from './user.entity';
 import { Client } from './client.entity';
 
 @Entity()
@@ -17,7 +16,6 @@ export class Photo {
   @Column()
   name: string;
 
-  // TODO: add the constraint that its only a url
   @Column()
   url: string;
 

@@ -6,37 +6,32 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { MaxLength, MinLength, IsNumber } from 'class-validator';
-
-export enum userRole {}
+export enum userRoles {
+  ADMIN = 'admin',
+  GUEST = 'guest',
+}
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  @MinLength(2)
-  @MaxLength(25)
+  @Column({ type: 'varchar', length: 25 })
   firstName: string;
 
-  @Column()
-  @MinLength(2)
-  @MaxLength(25)
+  @Column({ type: 'varchar', length: 25 })
   lastName: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @Column()
-  @MinLength(2)
-  @MaxLength(25)
+  @Column({ type: 'varchar' })
   password: string;
 
-  @Column()
-  role: string;
+  @Column({ type: 'enum', enum: userRoles, default: userRoles.GUEST })
+  role: userRoles;
 
-  @Column({ default: true })
+  @Column({ type: 'boolean', default: true })
   active: boolean;
 
   @CreateDateColumn({ type: 'timestamptz' })
@@ -44,9 +39,4 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
-
-  @IsNumber()
-  containsNumber(): boolean {
-    return /\d/.test(this.password);
-  }
 }
