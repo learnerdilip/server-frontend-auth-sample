@@ -10,7 +10,7 @@ import { UserModule } from 'src/user/user.module';
     UserModule,
     JwtModule.register({
       global: true,
-      secret: 'DILIPASIDJOADIJS', //TODO add this to env
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
   ],

@@ -15,10 +15,15 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * returns the accesstoken for a authorized user
+   * @param email {string}
+   * @param pass {string}
+   * @returns
+   */
   async signIn(email: string, pass: string) {
     try {
       const user = await this.usersService.findOne(email);
-      console.log('user: ', user);
 
       if (user?.password !== pass) {
         throw new UnauthorizedException();

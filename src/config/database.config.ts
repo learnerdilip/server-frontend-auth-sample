@@ -2,11 +2,10 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 const config: TypeOrmModuleOptions = {
   type: 'postgres',
-  // host: 'database', // this is used when server is run in docker container
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'ahjsvdjhasvfd789sd6f8sadfy6tdsfyg',
+  host: process.env.DATABASE_HOST,
+  port: parseInt(process.env.DATBASE_PORT),
+  username: process.env.DATBASE_USERNAME,
+  password: process.env.DATBASE_PASSWORD,
   database: 'postgres',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: true, // Set to false in production

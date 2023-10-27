@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CreateClientDto } from './createUserDto';
+import { CreateClientDto } from './userDto';
 import { Client } from './entities/client.entity';
 import { UserService } from './user.service';
 import { RegisterClientDto } from './registerClientDto';

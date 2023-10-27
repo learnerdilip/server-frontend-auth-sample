@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Photo } from './entities/photo.entity';
 import { Client } from './entities/client.entity';
-import { CreateClientDto } from './createUserDto';
+import { CreateClientDto } from './userDto';
 import S3Service from 'src/services/aws_s3.service';
 
 @Injectable()
@@ -15,6 +15,11 @@ export class UserService {
     private s3Service: S3Service,
   ) {}
 
+  /**
+   * function to create a client in the database and its associated photos in photos table
+   * @param {Client, Photos} client object to be created and list of photos
+   * @returns
+   */
   async createClientWithPhotos({
     clientData,
     pics,
@@ -50,10 +55,19 @@ export class UserService {
     }
   }
 
+  /**
+   * @param file
+   * @returns {string} url string
+   */
   async getS3UrlForUpload(file) {
     return await this.s3Service.uploadFile(file);
   }
 
+  /**
+   * Find the user based on email which is unique
+   * @param email {string}
+   * @returns { Client } object
+   */
   async findOne(email: string): Promise<Client> {
     return await this.clientRepository.findOne({ where: { email } });
   }
