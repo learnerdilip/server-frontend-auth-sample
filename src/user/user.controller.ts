@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Post,
   Request,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -12,6 +14,7 @@ import { CreateClientDto } from './createUserDto';
 import { Client } from './entities/client.entity';
 import { UserService } from './user.service';
 import { RegisterClientDto } from './registerClientDto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('api')
 export class UserController {
@@ -50,5 +53,13 @@ export class UserController {
     responseDto.role = registeredUser.role;
 
     return responseDto;
+  }
+
+  @Get('users/me')
+  @UseGuards(AuthGuard)
+  async getUser(@Request() req) {
+    const meDetails = await this.userService.findOne(req.user.username);
+    const { password, ...meDetailsWithourPassword } = meDetails;
+    return meDetailsWithourPassword;
   }
 }
