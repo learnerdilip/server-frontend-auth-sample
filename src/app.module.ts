@@ -7,9 +7,15 @@ import { AppService } from './app.service';
 import config from './config/database.config';
 import s3Service from './services/aws_s3.service';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [MulterModule.register(), TypeOrmModule.forRoot(config), UserModule],
+  imports: [
+    MulterModule.register(),
+    TypeOrmModule.forRoot(config),
+    UserModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService, s3Service],
   exports: [s3Service],
