@@ -10,7 +10,8 @@ import S3Service from 'src/services/aws_s3.service';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(Client) private clientRepository: Repository<Client>,
+    @InjectRepository(Client)
+    private clientRepository: Repository<Client>,
     private s3Service: S3Service,
   ) {}
 
@@ -51,5 +52,9 @@ export class UserService {
 
   async getS3UrlForUpload(file) {
     return await this.s3Service.uploadFile(file);
+  }
+
+  async findOne(email: string): Promise<Client> {
+    return await this.clientRepository.findOne({ where: { email } });
   }
 }

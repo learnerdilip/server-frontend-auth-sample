@@ -12,5 +12,6 @@ import S3Service from 'src/services/aws_s3.service';
   imports: [TypeOrmModule.forFeature([Client, Photo, User])],
   controllers: [UserController],
   providers: [UserService, S3Service],
+  exports: [UserService],
 })
 export class UserModule {}
