@@ -16,6 +16,13 @@
 ```bash
 # clone the repository
 
-$ docker compose up
+# Go to the folder containing the project
 
+# Copy the .example.env and input the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+
+$ npm install
+
+$ docker compose up -d
+
+# Make requests with Postman/ Insomnia and see the results of APIs
 ```
