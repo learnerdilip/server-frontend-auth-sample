@@ -18,7 +18,7 @@
 
 # Go to the folder containing the project
 
-# Copy the .example.env to a .,anv file and Replace the 'AWS_ACCESS_KEY_ID' and 'AWS_SECRET_ACCESS_KEY' with actual values
+# Copy the .example.env to a .env file and Replace the 'AWS_ACCESS_KEY_ID' and 'AWS_SECRET_ACCESS_KEY' with actual values
 
 $ npm install
 
