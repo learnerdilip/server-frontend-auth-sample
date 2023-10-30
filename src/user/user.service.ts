@@ -34,6 +34,7 @@ export class UserService {
       user.firstName = clientData.firstName;
       user.lastName = clientData.lastName;
       user.password = clientData.password;
+      user.role = clientData.role;
 
       const getPhoto = pics.map(async (file: any) => {
         const photo = new Photo();
@@ -69,6 +70,28 @@ export class UserService {
    * @returns { Client } object
    */
   async findOne(email: string): Promise<Client> {
-    return await this.clientRepository.findOne({ where: { email } });
+    try {
+      const user = await this.clientRepository.findOne({ where: { email } });
+
+      if (!user) {
+        throw new HttpException(
+          {
+            message: 'no user with this email',
+            detail: `no user with ${email}`,
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: error.message,
+          detail: error.details,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }
