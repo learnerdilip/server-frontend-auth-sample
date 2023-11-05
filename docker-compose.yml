@@ -10,10 +10,10 @@ services:
     image: cobbleweb-api
     container_name: cobbleweb-api
     build:
-      context: ./
+      context: ./api/
       dockerfile: ./Dockerfile
     ports:
-      - '3000:3000'
+      - '${PORT}:${PORT}'
     environment:
       NODE_ENV: development
     command: npm run start:dev
