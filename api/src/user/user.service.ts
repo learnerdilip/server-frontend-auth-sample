@@ -6,6 +6,7 @@ import { Photo } from './entities/photo.entity';
 import { Client } from './entities/client.entity';
 import { CreateClientDto } from './userDto';
 import S3Service from 'src/services/aws_s3.service';
+import { userRoles } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -15,17 +16,14 @@ export class UserService {
     private s3Service: S3Service,
   ) {}
 
-  /**
-   * function to create a client in the database and its associated photos in photos table
-   * @param {Client, Photos} client object to be created and list of photos
-   * @returns
-   */
   async createClientWithPhotos({
     clientData,
-    pics,
+    profilePics,
+    avatar,
   }: {
     clientData: CreateClientDto;
-    pics: Photo[];
+    profilePics: Express.Multer.File[];
+    avatar?: Express.Multer.File;
   }) {
     try {
       const user = new Client();
@@ -34,19 +32,13 @@ export class UserService {
       user.firstName = clientData.firstName;
       user.lastName = clientData.lastName;
       user.password = clientData.password;
-      user.role = clientData.role;
+      user.role = clientData.role ?? userRoles.GUEST;
+      user.photos = await this.createPhotoRecords(profilePics, user);
 
-      const getPhoto = pics.map(async (file: any) => {
-        const photo = new Photo();
-        photo.url = await this.getS3UrlForUpload(file);
-        photo.name = file.originalname;
-        photo.user = user;
-        return photo;
-      });
+      if (avatar) {
+        user.avatar = await this.getS3UrlForUpload(avatar);
+      }
 
-      const photoList = await Promise.all(getPhoto);
-
-      user.photos = photoList;
       return await this.clientRepository.save(user);
     } catch (error) {
       throw new HttpException(
@@ -56,22 +48,28 @@ export class UserService {
     }
   }
 
-  /**
-   * @param file
-   * @returns {string} url string
-   */
+  async createPhotoRecords(fileList: Express.Multer.File[], user: Client) {
+    return await Promise.all(
+      fileList.map(async (file) => {
+        const photo = new Photo();
+        photo.url = await this.getS3UrlForUpload(file);
+        photo.name = file.originalname;
+        photo.user = user;
+        return photo;
+      }),
+    );
+  }
+
   async getS3UrlForUpload(file) {
     return await this.s3Service.uploadFile(file);
   }
 
-  /**
-   * Find the user based on email which is unique
-   * @param email {string}
-   * @returns { Client } object
-   */
   async findOne(email: string): Promise<Client> {
     try {
-      const user = await this.clientRepository.findOne({ where: { email } });
+      const user = await this.clientRepository.findOne({
+        where: { email },
+        relations: ['photos'],
+      });
 
       if (!user) {
         throw new HttpException(
