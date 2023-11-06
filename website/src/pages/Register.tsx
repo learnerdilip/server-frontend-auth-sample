@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { TextInputs } from '../components/utils';
 import TextInput from '../components/TextInput';
 import FormError from '../components/FormError';
+import Button from '../components/Button';
 
 export default function Register() {
   const {
@@ -14,7 +15,7 @@ export default function Register() {
   } = useForm<TextInputs>();
 
   const onSubmit: SubmitHandler<TextInputs> = (data: any) => {
-    console.log(data);
+    console.log(data); // TODO: send data to server
   };
 
   return (
@@ -102,9 +103,7 @@ export default function Register() {
           <FormError text={errors.profilephotos?.message} />
         )}
 
-        <button className="border rounded my-2 p-2 bg-slate-300" type="submit">
-          Register
-        </button>
+        <Button text="Register" />
       </form>
     </div>
   );

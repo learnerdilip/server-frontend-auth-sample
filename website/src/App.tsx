@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { routes } from './routes';
 
 function App() {
-  const userData = true; // TODO: get user data
+  const userData = true; // TODO: get user data from store
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

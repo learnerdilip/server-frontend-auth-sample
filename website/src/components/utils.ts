@@ -6,3 +6,8 @@ export interface TextInputs {
   profilephotos: FileList;
   avatar?: FileList;
 }
+
+export interface LoginInputs {
+  email: string;
+  password: string;
+}
