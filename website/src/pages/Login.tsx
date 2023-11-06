@@ -16,7 +16,7 @@ export default function Login() {
   };
 
   return (
-    <div className="m-auto w-[50%] h-full">
+    <div className="m-auto w-[80%] lg:w-[40%] h-full">
       <form
         className="flex flex-col border rounded p-4 "
         onSubmit={handleSubmit(onSubmit)}
