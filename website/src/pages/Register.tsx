@@ -6,6 +6,7 @@ import TextInput from '../components/TextInput';
 import FormError from '../components/FormError';
 import Button from '../components/Button';
 import Title from '../components/Title';
+import { registerUser } from '../api/requests';
 
 export default function Register() {
   const {
@@ -16,7 +17,17 @@ export default function Register() {
   } = useForm<TextInputs>();
 
   const onSubmit: SubmitHandler<TextInputs> = (data: any) => {
-    console.log(data); // TODO: send data to server
+    const formData = new FormData();
+    formData.append('firstname', data.firstName);
+    formData.append('lastname', data.lastName);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('avatar', data.avatar[0]);
+    for (let i = 0; i < data.profilephotos.length; i++) {
+      formData.append('profilephotos', data.profilephotos[i]);
+    }
+
+    registerUser(formData);
   };
 
   return (
@@ -29,8 +40,8 @@ export default function Register() {
         <TextInput
           placeholder="First Name"
           type="text"
-          error={errors.firstname?.message}
-          props={register('firstname', {
+          error={errors.firstName?.message}
+          props={register('firstName', {
             required: { value: true, message: 'First name is required' },
             minLength: { value: 2, message: 'First name is too short' },
             maxLength: { value: 25, message: 'First name is too long' },
@@ -40,8 +51,8 @@ export default function Register() {
         <TextInput
           placeholder="Last Name"
           type="text"
-          error={errors.lastname?.message}
-          props={register('lastname', {
+          error={errors.lastName?.message}
+          props={register('lastName', {
             required: { value: true, message: 'Last name is required' },
             minLength: { value: 2, message: 'Last name is too short' },
             maxLength: { value: 25, message: 'Last name is too long' },
@@ -81,6 +92,15 @@ export default function Register() {
           className="my-2"
           type="file"
           {...register('avatar')}
+          onChange={(e) => {
+            const selectedFile = e.target.files?.[0];
+            if (selectedFile && selectedFile.size >= 1024 * 1024 * 10) {
+              setError('avatar', {
+                type: 'manual',
+                message: 'Maximum file size is 10MB',
+              });
+            }
+          }}
         />
 
         <label className={'my-1'} htmlFor="profilephotos">
