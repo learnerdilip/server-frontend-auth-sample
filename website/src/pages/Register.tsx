@@ -5,6 +5,7 @@ import { TextInputs } from '../components/utils';
 import TextInput from '../components/TextInput';
 import FormError from '../components/FormError';
 import Button from '../components/Button';
+import Title from '../components/Title';
 
 export default function Register() {
   const {
@@ -20,6 +21,7 @@ export default function Register() {
 
   return (
     <div className="m-auto w-[80%] lg:w-[40%] h-full">
+      <Title text="User registration" />
       <form
         className="flex flex-col border rounded p-4 "
         onSubmit={handleSubmit(onSubmit)}

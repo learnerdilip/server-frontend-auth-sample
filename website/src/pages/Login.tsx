@@ -3,6 +3,7 @@ import TextInput from '../components/TextInput';
 import { useForm } from 'react-hook-form';
 import { LoginInputs } from '../components/utils';
 import Button from '../components/Button';
+import Title from '../components/Title';
 
 export default function Login() {
   const {
@@ -17,6 +18,7 @@ export default function Login() {
 
   return (
     <div className="m-auto w-[80%] lg:w-[40%] h-full">
+      <Title text="User login" />
       <form
         className="flex flex-col border rounded p-4 "
         onSubmit={handleSubmit(onSubmit)}
