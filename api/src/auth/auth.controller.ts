@@ -23,6 +23,9 @@ export class AuthController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return this.authservice.signIn(email, password);
+
+    const token = this.authservice.signIn(email, password);
+
+    return token;
   }
 }

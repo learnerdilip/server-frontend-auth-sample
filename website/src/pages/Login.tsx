@@ -1,9 +1,13 @@
 import React from 'react';
-import TextInput from '../components/TextInput';
 import { useForm } from 'react-hook-form';
+
+import { loginUser } from '../api/requests';
+
+import TextInput from '../components/TextInput';
 import { LoginInputs } from '../components/utils';
 import Button from '../components/Button';
 import Title from '../components/Title';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const {
@@ -11,9 +15,19 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInputs>();
+  const navigate = useNavigate();
+  const [error, setError] = React.useState<string | undefined>(undefined);
 
-  const onSubmit = (data: LoginInputs) => {
-    console.log(data); // TODO: send data to server
+  const onSubmit = async (loginData: LoginInputs) => {
+    const response = await loginUser(loginData);
+    if (200 <= response.status && response.status < 300) {
+      navigate('/profile');
+    }
+
+    if (400 <= response.status && response.status < 500) {
+      const { error } = response as { status: number; error: string };
+      setError(error);
+    }
   };
 
   return (
@@ -41,6 +55,12 @@ export default function Login() {
         />
         <Button text="Login" />
       </form>
+      {error ? <p className="text-red-500">{error}</p> : null}
+      <div className="text-end">
+        <Link className="underline text-blue-500" to="/register">
+          Register
+        </Link>
+      </div>
     </div>
   );
 }

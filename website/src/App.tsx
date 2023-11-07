@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { routes } from './routes';
+import NotFound from './pages/NotFound';
 
 function App() {
   const userData = true; // TODO: get user data from store
@@ -22,7 +23,7 @@ function App() {
             }
           />
         ))}
-        <Route path="*" element={<div>Not Found</div>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
   );

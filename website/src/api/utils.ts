@@ -6,12 +6,13 @@ export const API = axios.create({
   baseURL: BASE_URL,
 });
 
-export const handleAPIError = async (error: any) => {
+export const handleAPIError = (error: any) => {
   try {
-    const errorMessage =
-      error.response?.data?.message || 'An unexpected error occurred.';
-    const data = null;
-    return { error: errorMessage, data };
+    return {
+      status: error.response?.status,
+      error: error.response?.data?.message || 'An error occurred.',
+      detail: error.response?.data?.detail || 'No details available',
+    };
   } catch (err) {
     throw new Error('An unexpected error occurred.');
   }

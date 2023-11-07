@@ -1,14 +1,16 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { registerUser } from '../api/requests';
 import { TextInputs } from '../components/utils';
 import TextInput from '../components/TextInput';
 import FormError from '../components/FormError';
 import Button from '../components/Button';
 import Title from '../components/Title';
-import { registerUser } from '../api/requests';
 
 export default function Register() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -16,10 +18,10 @@ export default function Register() {
     formState: { errors },
   } = useForm<TextInputs>();
 
-  const onSubmit: SubmitHandler<TextInputs> = (data: any) => {
+  const onSubmit: SubmitHandler<TextInputs> = async (data: any) => {
     const formData = new FormData();
-    formData.append('firstname', data.firstName);
-    formData.append('lastname', data.lastName);
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName);
     formData.append('email', data.email);
     formData.append('password', data.password);
     formData.append('avatar', data.avatar[0]);
@@ -27,7 +29,10 @@ export default function Register() {
       formData.append('profilephotos', data.profilephotos[i]);
     }
 
-    registerUser(formData);
+    const { status } = await registerUser(formData);
+    if (200 <= status && status < 300) {
+      navigate('/register-success');
+    }
   };
 
   return (
@@ -127,6 +132,11 @@ export default function Register() {
 
         <Button text="Register" />
       </form>
+      <div className="text-end">
+        <Link className="underline text-blue-500" to="/login">
+          Login
+        </Link>
+      </div>
     </div>
   );
 }
