@@ -1,11 +1,16 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { routes } from './routes';
 import NotFound from './pages/NotFound';
 
 function App() {
-  const userData = true; // TODO: get user data from store
+  const [hasUserToken, setHasUserToken] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    setHasUserToken(!!token);
+  }, []);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -15,7 +20,7 @@ function App() {
             key={route.path}
             path={route.path}
             element={
-              !route.private || userData ? (
+              !route.private || hasUserToken ? (
                 route.component
               ) : (
                 <Navigate to="/login" />

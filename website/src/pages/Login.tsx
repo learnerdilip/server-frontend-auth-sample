@@ -8,6 +8,7 @@ import { LoginInputs } from '../components/utils';
 import Button from '../components/Button';
 import Title from '../components/Title';
 import { Link, useNavigate } from 'react-router-dom';
+import { LocalStorageService } from '../services/localstorage';
 
 export default function Login() {
   const {
@@ -21,6 +22,8 @@ export default function Login() {
   const onSubmit = async (loginData: LoginInputs) => {
     const response = await loginUser(loginData);
     if (200 <= response.status && response.status < 300) {
+      const { data } = response as { status: number; data: object };
+      LocalStorageService.setItem(Object.keys(data)[0], Object.values(data)[0]);
       navigate('/profile');
     }
 
