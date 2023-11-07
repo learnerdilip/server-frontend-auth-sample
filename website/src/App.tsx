@@ -1,16 +1,11 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { routes } from './routes';
 import NotFound from './pages/NotFound';
 
 function App() {
-  const [hasUserToken, setHasUserToken] = useState<boolean>(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    setHasUserToken(!!token);
-  }, []);
+  const [hasUserToken, setHasUserToken] = useState<boolean>(false); // TODO: user state should come from global state
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
