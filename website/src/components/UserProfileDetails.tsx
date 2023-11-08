@@ -16,20 +16,22 @@ export default function UserProfileDetails(props: any) {
         </div>
         <div className="flex flex-col p-2 border rounded">
           <p className="font-semibold text-base">{user.fullName}</p>
-          <p className="font-semibold text-base">{user.email}</p>
-          <p className="font-semibold text-base">{user.role}</p>
+          <p className="font-normal italic">{user.email}</p>
+          <p className="font-normal italic">{user.role}</p>
         </div>
       </div>
       <div className=" h-[350px] gap-3 flex overflow-auto">
-        {user.profilePhotos.map((photo: string) => {
-          return (
-            <img
-              src={photo}
-              alt="profile"
-              className="p-3 h-auto min-w-[75%] lg:min-w-[40%] border object-center object-cover rounded"
-            />
-          );
-        })}
+        {user.profilePhotos &&
+          user.profilePhotos.map((photo: string) => {
+            return (
+              <img
+                key={photo}
+                src={photo}
+                alt="profile"
+                className="p-3 h-auto min-w-[75%] lg:min-w-[40%] border object-center object-cover rounded"
+              />
+            );
+          })}
       </div>
     </div>
   );

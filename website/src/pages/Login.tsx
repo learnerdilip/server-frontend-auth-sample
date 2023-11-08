@@ -1,13 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { loginUser } from '../api/requests';
-
 import TextInput from '../components/TextInput';
 import { LoginInputs } from '../components/utils';
 import Button from '../components/Button';
 import Title from '../components/Title';
-import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/user';
 import { UserContextType } from '../context/types';
 
@@ -27,7 +26,7 @@ export default function Login() {
     if (token) {
       navigate('/profile');
     }
-  }, [token, navigate]);
+  }, [token]);
 
   const onSubmit = async (loginData: LoginInputs) => {
     const response = await loginUser(loginData);

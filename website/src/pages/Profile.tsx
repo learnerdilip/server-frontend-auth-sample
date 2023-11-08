@@ -17,7 +17,7 @@ export default function Profile() {
     }
 
     getMeDetails();
-  }, [token, navigate, getMeDetails]);
+  }, [token]);
 
   return (
     <div>
