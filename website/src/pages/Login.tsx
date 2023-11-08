@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { loginUser } from '../api/requests';
@@ -8,7 +8,7 @@ import { LoginInputs } from '../components/utils';
 import Button from '../components/Button';
 import Title from '../components/Title';
 import { Link, useNavigate } from 'react-router-dom';
-import { LocalStorageService } from '../services/localstorage';
+import { UserContext, UserContextType } from '../context/user';
 
 export default function Login() {
   const {
@@ -19,11 +19,20 @@ export default function Login() {
   const navigate = useNavigate();
   const [error, setError] = React.useState<string | undefined>(undefined);
 
+  const { token, loginUserWithToken } =
+    useContext<UserContextType>(UserContext);
+
+  useEffect(() => {
+    if (token) {
+      navigate('/profile');
+    }
+  }, [token]);
+
   const onSubmit = async (loginData: LoginInputs) => {
     const response = await loginUser(loginData);
     if (200 <= response.status && response.status < 300) {
       const { data } = response as { status: number; data: object };
-      LocalStorageService.setItem(Object.keys(data)[0], Object.values(data)[0]);
+      loginUserWithToken(Object.values(data)[0]);
       navigate('/profile');
     }
 
