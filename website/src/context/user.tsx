@@ -1,25 +1,21 @@
 import { createContext, useState } from 'react';
+
 import { LocalStorageService } from '../services/localstorage';
+import { getMe } from '../api/requests';
+import { UserContextType, UserType } from './types';
 
 export const UserContext = createContext<UserContextType>({
+  // intialised with empty values
   token: '',
   loginUserWithToken: (token: string) => null,
-  user: {},
-  setUser: (user: object) => null,
+  user: undefined,
+  getMeDetails: () => null,
   logoutUser: () => null,
 });
 
-export type UserContextType = {
-  token: string;
-  loginUserWithToken: (token: string) => void;
-  user: {};
-  setUser: (user: object) => void;
-  logoutUser: () => void;
-};
-
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string>('');
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<UserType>();
 
   const loginUserWithToken = (token: string) => {
     setToken(token);
@@ -31,9 +27,18 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     LocalStorageService.removeItem('access_token');
   };
 
+  const getMeDetails = async () => {
+    const { data } = (await getMe()) as {
+      data: UserType;
+      status: number;
+    };
+
+    setUser({ ...data });
+  };
+
   return (
     <UserContext.Provider
-      value={{ token, user, setUser, logoutUser, loginUserWithToken }}
+      value={{ token, user, getMeDetails, logoutUser, loginUserWithToken }}
     >
       {children}
     </UserContext.Provider>

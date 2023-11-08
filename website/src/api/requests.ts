@@ -1,3 +1,4 @@
+import { LocalStorageService } from '../services/localstorage';
 import { API, handleAPIError } from './utils';
 
 export const registerUser = async (formData: FormData) => {
@@ -20,7 +21,6 @@ export const loginUser = async (loginData: {
 }) => {
   try {
     const { data, status } = await API.post('/login', loginData);
-    // save token to local storage
     return { data, status };
   } catch (error) {
     return handleAPIError(error);
@@ -29,7 +29,11 @@ export const loginUser = async (loginData: {
 
 export const getMe = async () => {
   try {
-    const { data, status } = await API.get('/users/me');
+    const { data, status } = await API.get('/users/me', {
+      headers: {
+        Authorization: `Bearer ${LocalStorageService.getItem('access_token')}`,
+      },
+    });
     return { data, status };
   } catch (error) {
     return handleAPIError(error);

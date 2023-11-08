@@ -8,7 +8,8 @@ import { LoginInputs } from '../components/utils';
 import Button from '../components/Button';
 import Title from '../components/Title';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContext, UserContextType } from '../context/user';
+import { UserContext } from '../context/user';
+import { UserContextType } from '../context/types';
 
 export default function Login() {
   const {
@@ -26,7 +27,7 @@ export default function Login() {
     if (token) {
       navigate('/profile');
     }
-  }, [token]);
+  }, [token, navigate]);
 
   const onSubmit = async (loginData: LoginInputs) => {
     const response = await loginUser(loginData);

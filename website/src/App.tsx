@@ -1,9 +1,10 @@
-import React, { Suspense, useContext, useState } from 'react';
+import { Suspense, useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { routes } from './routes';
 import NotFound from './pages/NotFound';
-import { UserContext, UserContextType } from './context/user';
+import { UserContext } from './context/user';
+import { UserContextType } from './context/types';
 
 function App() {
   const { token } = useContext<UserContextType>(UserContext);

@@ -1,17 +1,23 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { UserContext, UserContextType } from '../context/user';
+import { UserContext } from '../context/user';
+import UserProfileDetails from '../components/UserProfileDetails';
+import { UserContextType } from '../context/types';
 
 export default function Profile() {
-  const { token, logoutUser } = useContext<UserContextType>(UserContext);
+  const { token, logoutUser, user, getMeDetails } =
+    useContext<UserContextType>(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) {
       navigate('/login');
+      return;
     }
-  }, []);
+
+    getMeDetails();
+  }, [token, navigate, getMeDetails]);
 
   return (
     <div>
@@ -20,10 +26,7 @@ export default function Profile() {
           Logout
         </button>
       </div>
-      <div className="flex flex-col">
-        <h1 className="text-center font-bold text-xl">User Profile</h1>
-        <p></p>
-      </div>
+      <UserProfileDetails {...user} />
     </div>
   );
 }
