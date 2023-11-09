@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 
+// Lazy load pages
 const Login = lazy(() => import('./pages/Login'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Profile = lazy(() => import('./pages/Profile'));

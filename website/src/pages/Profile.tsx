@@ -10,12 +10,14 @@ export default function Profile() {
     useContext<UserContextType>(UserContext);
   const navigate = useNavigate();
 
+  // If there is no token, redirect to login page
   useEffect(() => {
     if (!token) {
       navigate('/login');
       return;
     }
 
+    // If there is a token, get user details
     getMeDetails();
   }, [token]);
 

@@ -32,7 +32,7 @@ export class UserService {
       user.firstName = clientData.firstName;
       user.lastName = clientData.lastName;
       user.password = clientData.password;
-      user.role = clientData.role ?? userRoles.GUEST;
+      user.role = clientData.role ?? userRoles.GUEST; // default to guest
       user.photos = await this.createPhotoRecords(profilePics, user);
 
       if (avatar) {

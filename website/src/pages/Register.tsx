@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -16,11 +16,19 @@ export default function Register() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<RegisterInputs>();
+  } = useForm<RegisterInputs>(); // react-hook-form
 
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * handler for register form submission
+   * @param data - form data
+   */
   const onSubmit: SubmitHandler<RegisterInputs> = async (
     data: RegisterInputs,
   ) => {
+    setLoading(true); // set loading to true
+
     const formData = new FormData();
     formData.append('firstName', data.firstName);
     formData.append('lastName', data.lastName);
@@ -32,14 +40,20 @@ export default function Register() {
     }
 
     const { status } = await registerUser(formData);
+    setLoading(false); // end loading
+
     if (200 <= status && status < 300) {
       navigate('/register-success');
     }
   };
 
+  /**
+   * validation for file size 5MB
+   * @param e - event
+   */
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-    if (selectedFile && selectedFile.size >= 1024 * 1024 * 10) {
+    if (selectedFile && selectedFile.size >= 1024 * 1024 * 5) {
       setError('avatar', {
         type: 'manual',
         message: 'Maximum file size is 10MB',
@@ -58,6 +72,7 @@ export default function Register() {
     }
   };
 
+  if (loading) return <div className="text-center">Loading...</div>;
   return (
     <div className="m-auto w-[80%] lg:w-[40%] h-full">
       <Title text="User registration" />

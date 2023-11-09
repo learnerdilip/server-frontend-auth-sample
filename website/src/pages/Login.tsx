@@ -30,12 +30,14 @@ export default function Login() {
 
   const onSubmit = async (loginData: LoginInputs) => {
     const response = await loginUser(loginData);
+    // Handle success
     if (200 <= response.status && response.status < 300) {
       const { data } = response as { status: number; data: object };
       loginUserWithToken(Object.values(data)[0]);
       navigate('/profile');
     }
 
+    // Handle error
     if (400 <= response.status && response.status < 500) {
       const { error } = response as { status: number; error: string };
       setError(error);

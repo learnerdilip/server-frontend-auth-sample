@@ -27,10 +27,11 @@ export class UserController {
   @Post('register')
   @UseInterceptors(
     AnyFilesInterceptor({
-      limits: { fileSize: 1024 * 1024 * 5 },
+      limits: { fileSize: 1024 * 1024 * 5 }, // 5MB
       fileFilter: (req, file, cb) => {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-          req.fileValidationError = 'Only image files are allowed!';
+          req.fileValidationError =
+            'Only image format (.jpg|.jpeg|.png) files are allowed!';
           return cb(new Error('Only image files are allowed!'), false);
         }
         cb(null, true);
@@ -48,6 +49,7 @@ export class UserController {
       (file) => file.fieldname === 'profilephotos',
     );
 
+    // check if minimum 4 profile photos are uploaded
     if (profilePhotoFiles.length < 4) {
       throw new HttpException(
         {
