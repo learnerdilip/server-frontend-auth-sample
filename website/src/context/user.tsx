@@ -4,18 +4,28 @@ import { LocalStorageService } from '../services/localstorage';
 import { getMe } from '../api/requests';
 import { UserContextType, UserType } from './types';
 
+const intialUser = {
+  id: '',
+  fullName: '',
+  email: '',
+  role: '',
+  avatar: '',
+  active: true,
+  profilePhotos: [],
+};
+
 export const UserContext = createContext<UserContextType>({
   // intialised with empty values
   token: '',
   loginUserWithToken: (token: string) => null,
-  user: undefined,
+  user: intialUser,
   getMeDetails: () => null,
   logoutUser: () => null,
 });
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string>('');
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType>(intialUser);
 
   const loginUserWithToken = (token: string) => {
     setToken(token);

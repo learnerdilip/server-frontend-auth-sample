@@ -1,7 +1,7 @@
 export type UserContextType = {
   token: string;
   loginUserWithToken: (token: string) => void;
-  user: UserType | undefined;
+  user: UserType;
   getMeDetails: () => void;
   logoutUser: () => void;
 };
@@ -9,7 +9,7 @@ export type UserContextType = {
 export type UserType = {
   id: string;
   email: string;
-  avatar: string;
+  avatar?: string;
   profilePhotos: string[];
   role: string;
   fullName: string;

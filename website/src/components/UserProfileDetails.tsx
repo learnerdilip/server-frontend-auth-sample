@@ -1,6 +1,14 @@
 import React from 'react';
 
-export default function UserProfileDetails(props: any) {
+type UserProfileDetailsProps = {
+  avatar?: string;
+  fullName: string;
+  email: string;
+  role: string;
+  profilePhotos: string[];
+};
+
+export default function UserProfileDetails(props: UserProfileDetailsProps) {
   const user = props;
 
   if (user === undefined) return null;

@@ -1,8 +1,10 @@
-import Login from './pages/Login';
-import NotFound from './pages/NotFound';
-import Profile from './pages/Profile';
-import Register from './pages/Register';
-import RegisterSuccess from './pages/RegisterSuccess';
+import { lazy } from 'react';
+
+const Login = lazy(() => import('./pages/Login'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Register = lazy(() => import('./pages/Register'));
+const RegisterSuccess = lazy(() => import('./pages/RegisterSuccess'));
 
 export const routes = [
   {

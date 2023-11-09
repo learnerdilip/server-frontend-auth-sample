@@ -1,10 +1,10 @@
-export interface TextInputs {
+export interface RegisterInputs {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   profilephotos: FileList;
-  avatar?: FileList;
+  avatar: FileList;
 }
 
 export interface LoginInputs {

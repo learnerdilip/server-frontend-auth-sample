@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { registerUser } from '../api/requests';
-import { TextInputs } from '../components/utils';
+import { RegisterInputs } from '../components/utils';
 import TextInput from '../components/TextInput';
 import FormError from '../components/FormError';
 import Button from '../components/Button';
@@ -16,9 +16,11 @@ export default function Register() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<TextInputs>();
+  } = useForm<RegisterInputs>();
 
-  const onSubmit: SubmitHandler<TextInputs> = async (data: any) => {
+  const onSubmit: SubmitHandler<RegisterInputs> = async (
+    data: RegisterInputs,
+  ) => {
     const formData = new FormData();
     formData.append('firstName', data.firstName);
     formData.append('lastName', data.lastName);
@@ -32,6 +34,27 @@ export default function Register() {
     const { status } = await registerUser(formData);
     if (200 <= status && status < 300) {
       navigate('/register-success');
+    }
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && selectedFile.size >= 1024 * 1024 * 10) {
+      setError('avatar', {
+        type: 'manual',
+        message: 'Maximum file size is 10MB',
+      });
+    }
+  };
+
+  const handleProfilePhotosChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (e.target.files && e.target.files.length < 4) {
+      setError('profilephotos', {
+        type: 'manual',
+        message: 'You need to upload a minimum of 4 files',
+      });
     }
   };
 
@@ -97,15 +120,7 @@ export default function Register() {
           className="my-2"
           type="file"
           {...register('avatar')}
-          onChange={(e) => {
-            const selectedFile = e.target.files?.[0];
-            if (selectedFile && selectedFile.size >= 1024 * 1024 * 10) {
-              setError('avatar', {
-                type: 'manual',
-                message: 'Maximum file size is 10MB',
-              });
-            }
-          }}
+          onChange={handleAvatarChange}
         />
 
         <label className={'my-1'} htmlFor="profilephotos">
@@ -117,14 +132,7 @@ export default function Register() {
           multiple
           type="file"
           {...register('profilephotos', { required: true })}
-          onChange={(e) => {
-            if (e.target.files && e.target.files.length < 4) {
-              setError('profilephotos', {
-                type: 'manual',
-                message: 'You need to upload a minimum of 4 files',
-              });
-            }
-          }}
+          onChange={handleProfilePhotosChange}
         />
         {errors.profilephotos && (
           <FormError text={errors.profilephotos?.message} />
