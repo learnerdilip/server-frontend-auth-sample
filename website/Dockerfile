@@ -1,6 +1,6 @@
 FROM node:lts
 
-WORKDIR /api
+WORKDIR /website
 
 COPY ./package*.json ./
 COPY ./tsconfig*.json ./
@@ -11,4 +11,4 @@ COPY ./ ./
 
 RUN npm run build
 
-CMD npm run start:dev
+CMD npm run start

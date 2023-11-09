@@ -18,6 +18,19 @@ services:
       NODE_ENV: development
     command: npm run start:dev
 
+  website:
+    image: cobbleweb-website
+    container_name: cobbleweb-website
+    build:
+      context: ./website/
+      dockerfile: ./Dockerfile
+    ports:
+      - '${WEBSITE_PORT}:${WEBSITE_PORT}'
+    environment:
+      NODE_ENV: development
+      REACT_APP_API_URL: http://localhost:${PORT}/api
+    command: npm run start
+
   database:
     image: postgres
     restart: always
