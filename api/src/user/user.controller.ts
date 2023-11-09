@@ -37,7 +37,9 @@ export class UserController {
   async createClient(
     @Body() registerData: CreateUserDto,
     @UploadedFiles() photofiles: Express.Multer.File[],
-  ): Promise<any> {
+  ): Promise<{
+    message: string;
+  }> {
     const avatarFile = photofiles.find((file) => file.fieldname === 'avatar');
     const profilePhotoFiles = photofiles.filter(
       (file) => file.fieldname === 'profilephotos',

@@ -60,7 +60,7 @@ export class UserService {
     );
   }
 
-  async getS3UrlForUpload(file) {
+  async getS3UrlForUpload(file: Express.Multer.File) {
     return await this.s3Service.uploadFile(file);
   }
 
