@@ -11,7 +11,7 @@ export default class S3Service {
   });
   private BUCKET_NAME = process.env.S3_IMAGE_BUCKET_NAME;
 
-  async uploadFile(file: any): Promise<string> {
+  async uploadFile(file: Express.Multer.File): Promise<string> {
     const command = new PutObjectCommand({
       Bucket: this.BUCKET_NAME,
       Key: file.originalname,

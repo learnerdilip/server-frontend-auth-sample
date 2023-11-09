@@ -1,6 +1,6 @@
 FROM node:lts
 
-WORKDIR /api
+WORKDIR /website
 
 COPY ./package*.json ./
 COPY ./tsconfig*.json ./
