@@ -21,6 +21,9 @@ import { RegisteredClientDto } from './registeredClientDto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // any files uploaded will be available in the request object
+  // extracted by the Multer module AnyFilesInterceptor and passed
+  // to the controller after validation
   @Post('register')
   @UseInterceptors(
     AnyFilesInterceptor({

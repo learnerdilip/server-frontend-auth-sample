@@ -8,6 +8,9 @@ import {
 } from 'typeorm';
 import { Client } from './client.entity';
 
+/**
+ * Photo Entity
+ */
 @Entity()
 export class Photo {
   @PrimaryGeneratedColumn('uuid')

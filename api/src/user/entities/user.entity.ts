@@ -11,6 +11,9 @@ export enum userRoles {
   GUEST = 'guest',
 }
 
+/**
+ * User Entity
+ */
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')

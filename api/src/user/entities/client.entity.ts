@@ -3,6 +3,9 @@ import { Entity, Column, OneToMany } from 'typeorm';
 import { User } from './user.entity';
 import { Photo } from './photo.entity';
 
+/**
+ * Client entity
+ */
 @Entity()
 export class Client extends User {
   @Column({
